@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const EventSchema = new mongoose.Schema({
-
     title: {
         type: String,
         required: true,
@@ -30,7 +29,7 @@ const EventSchema = new mongoose.Schema({
         type: String,
         default: 'https://example.com/default-image.png', 
     },
-    price: {
+    price: {S
         type: Number,
         required: true,
     },

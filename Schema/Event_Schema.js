@@ -27,9 +27,9 @@ const EventSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        default: 'https://example.com/default-image.png',
+        default: 'https://example.com/default-image.png', 
     },
-    price: {
+    price: {S
         type: Number,
         required: true,
     },
@@ -45,9 +45,9 @@ const EventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-    }
-}, { timestamps: true }); 
+    },
+ }, { timestamps: true });
 
-const TicketTracker = mongoose.model('Event', EventSchema);
+ const TicketTracker = mongoose.model('Event', EventSchema);
 
 module.exports = TicketTracker;

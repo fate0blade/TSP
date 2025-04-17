@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
-
+// omar emam 
 const EventSchema = new mongoose.Schema({
     title: {
-        type: String,
-        required: true,
+        type: String, 
+        required: true, 
         trim: true,
     },
     description: {
-        type: String,
+        type: String, 
         required: true,
-        trim: true,
+        trim: true, 
     },
-    date: {
+    date: {  
         type: Date,
         required: true,
     },
@@ -29,7 +29,7 @@ const EventSchema = new mongoose.Schema({
         type: String,
         default: 'https://example.com/default-image.png', 
     },
-    price: {S
+    price: {
         type: Number,
         required: true,
     },

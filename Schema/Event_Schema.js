@@ -46,6 +46,11 @@ const EventSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    Status: {
+        type: String,
+        enum: ['approved', 'pending', 'declined'],
+        default: 'pending',
+    },
  }, { timestamps: true });
 
  const TicketTracker = mongoose.model('Event', EventSchema);

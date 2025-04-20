@@ -56,4 +56,66 @@ exports.editEvent = async (req, res) => {
         res.status(500).json({ message: 'Error updating event', error });
     }
 };
+// 4. Delete an event (restricted to organizers)
+exports.deleteEvent = async (req, res) => {
+    try {
+        const { eventId } = req.params;
+
+        const deletedEvent = await Event.findOneAndDelete({
+            _id: eventId,
+            organizer: req.user.id, // Ensure the organizer owns the event
+        });
+
+        if (!deletedEvent) {
+            return res.status(404).json({ message: 'Event not found or not authorized' });
+        }
+
+        res.status(200).json({ message: 'Event deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting event', error });
+    }
+};
+
+// 5. View event analytics (restricted to organizers)
+exports.getEventAnalytics = async (req, res) => {
+    try {
+        const organizerId = req.user.id;
+
+        const events = await Event.find({ organizer: organizerId });
+        const analytics = events.map(event => ({
+            title: event.title,
+            percentageBooked: (((event.totalTickets - event.remainingTickets) / event.totalTickets) * 100).toFixed(2),
+        }));
+
+        res.status(200).json(analytics);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching analytics', error });
+    }
+};
+
+// 6. Approve or reject an event (restricted to admins)
+exports.updateEventStatus = async (req, res) => {
+    try {
+        const { eventId } = req.params;
+        const { Status } = req.body;
+
+        if (!['approved', 'pending', 'declined'].includes(Status)) {
+            return res.status(400).json({ message: 'Invalid status value' });
+        }
+
+        const updatedEvent = await Event.findByIdAndUpdate(
+            eventId,
+            { Status },
+            { new: true }
+        );
+
+        if (!updatedEvent) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        res.status(200).json(updatedEvent);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating event status', error });
+    }
+};
 

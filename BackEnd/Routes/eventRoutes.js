@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 const express = require('express');
 const router = express.Router();
 const { authenticateUser, authorizeRoles } = require('../middleWare/authMiddleware');
@@ -25,4 +23,3 @@ router.get('/analytics', authenticateUser, authorizeRoles('organizer'), getEvent
 router.put('/:id/status', authenticateUser, authorizeRoles('admin'), updateEventStatus);
 
 module.exports = router;
->>>>>>> Stashed changes

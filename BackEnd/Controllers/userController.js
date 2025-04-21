@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 const User = require('../models/User');
 const Booking = require('../Models/booking');
 const Event = require('../Models/event');
@@ -108,4 +106,3 @@ exports.getEventAnalytics = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
->>>>>>> Stashed changes

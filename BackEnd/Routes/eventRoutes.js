@@ -1,26 +1,26 @@
 
 const express = require('express');
 const router = express.Router();
-const { authenticateUser, authorizeRoles } = require('../middleware/auth');
+const { authenticateUser, authorizeRoles } = require('../middleWare/authMiddleware');
 const {
-  getAllEvents,
-  createEvent,
-  updateEvent,
-  deleteEvent,
-  updateEventStatus,
-  eventAnalytics
-} = require('../controllers/eventController');
+    getAllEvents,
+    createEvent,
+    editEvent,
+    deleteEvent,
+    updateEventStatus,
+    getEventAnalytics
+} = require('../Controllers/EventController');
 
-// Public
+// Public route
 router.get('/', getAllEvents);
 
-// Organizer
+// Organizer routes
 router.post('/', authenticateUser, authorizeRoles('organizer'), createEvent);
-router.put('/:id', authenticateUser, authorizeRoles('organizer'), updateEvent);
+router.put('/:id', authenticateUser, authorizeRoles('organizer'), editEvent);
 router.delete('/:id', authenticateUser, authorizeRoles('organizer'), deleteEvent);
-router.get('/analytics', authenticateUser, authorizeRoles('organizer'), eventAnalytics);
+router.get('/analytics', authenticateUser, authorizeRoles('organizer'), getEventAnalytics);
 
-// Admin
+// Admin route
 router.put('/:id/status', authenticateUser, authorizeRoles('admin'), updateEventStatus);
 
 module.exports = router;

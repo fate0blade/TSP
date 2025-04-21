@@ -1,4 +1,4 @@
-const Event = require('../Schema/Event_Schema'); // Import the Event schema
+const Event = require('../Models/event.js'); // Import the Event schema
 
 // 1. View all posted events (accessible to anyone)
 exports.getAllEvents = async (req, res) => {
@@ -14,7 +14,8 @@ exports.getAllEvents = async (req, res) => {
 exports.createEvent = async (req, res) => {
     try {
         const { title, description, date, location, category, image, price, totalTickets } = req.body;
-        const organizerId = req.user.id; 
+        const organizerId = req.user.id;
+
         const newEvent = new Event({
             title,
             description,
@@ -24,12 +25,12 @@ exports.createEvent = async (req, res) => {
             image,
             price,
             totalTickets,
-            remainingTickets: totalTickets, 
+            remainingTickets: totalTickets,
             organizer: organizerId,
         });
 
         const savedEvent = await newEvent.save();
-        res.status(201).json(savedEvent);   
+        res.status(201).json(savedEvent);
     } catch (error) {
         res.status(500).json({ message: 'Error creating event', error });
     }
@@ -42,8 +43,8 @@ exports.editEvent = async (req, res) => {
         const { totalTickets, date, location } = req.body;
 
         const updatedEvent = await Event.findOneAndUpdate(
-            { _id: eventId, organizer: req.user.id }, // Ensure the organizer owns the event
-            { totalTickets, date, location, remainingTickets: totalTickets }, // Update remaining tickets if totalTickets changes
+            { _id: eventId, organizer: req.user.id },
+            { totalTickets, date, location, remainingTickets: totalTickets },
             { new: true }
         );
 
@@ -56,6 +57,7 @@ exports.editEvent = async (req, res) => {
         res.status(500).json({ message: 'Error updating event', error });
     }
 };
+
 // 4. Delete an event (restricted to organizers)
 exports.deleteEvent = async (req, res) => {
     try {
@@ -63,7 +65,7 @@ exports.deleteEvent = async (req, res) => {
 
         const deletedEvent = await Event.findOneAndDelete({
             _id: eventId,
-            organizer: req.user.id, // Ensure the organizer owns the event
+            organizer: req.user.id,
         });
 
         if (!deletedEvent) {
@@ -118,4 +120,6 @@ exports.updateEventStatus = async (req, res) => {
         res.status(500).json({ message: 'Error updating event status', error });
     }
 };
+
+
 

@@ -1,11 +1,10 @@
 
-
 const express = require('express');
 const router = express.Router();
-const { authenticateUser, authorizeRoles } = require('../middleware/auth');
+const { authenticateUser, authorizeRoles } = require('../middleWare/authMiddleware');
 const {
-  getBookings,
-  bookTickets,
+  getBookings, // Matches the renamed function in bookingController.js
+  bookTickets, // Matches the renamed function in bookingController.js
   cancelBooking
 } = require('../Controllers/bookingController');
 

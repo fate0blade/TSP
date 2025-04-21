@@ -1,11 +1,11 @@
-const Booking = require('../Schema/Booking_schema'); // Import the Booking schema
-const Event = require('../Schema/Event_Schema'); // Import the Event schema
+const Booking = require('../Models/booking.js'); // Import the Booking schema
+const Event = require('../Models/event.js'); // Import the Event schema
 
 // 1. Create a Booking
-exports.createBooking = async (req, res) => {
+exports.bookTickets = async (req, res) => { // Renamed from createBooking to bookTickets
     try {
         const { eventId, ticketsBooked } = req.body;
-        const userId = req.user.id; 
+        const userId = req.user.id;
 
         const event = await Event.findById(eventId);
         if (!event) {
@@ -37,7 +37,7 @@ exports.createBooking = async (req, res) => {
 };
 
 // 2. View User's Bookings
-exports.getUserBookings = async (req, res) => {
+exports.getBookings = async (req, res) => { // Renamed from getUserBookings to getBookings
     try {
         const userId = req.user.id; // Assuming `req.user` contains the authenticated user's info
 

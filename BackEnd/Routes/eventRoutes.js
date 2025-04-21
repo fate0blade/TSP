@@ -9,7 +9,7 @@ const {
   deleteEvent,
   updateEventStatus,
   eventAnalytics
-} = require('../controllers/eventController');
+} = require('../Controllers/EventController');
 
 // Public
 router.get('/', getAllEvents);

@@ -1,14 +1,13 @@
-
-
 const express = require('express');
 const router = express.Router();
-const { authenticateUser, authorizeRoles } = require('../middleware/auth');
+const { authenticateUser, authorizeRoles } = require('../middleWare/authMiddleware');
 const {
-  getBookings,
-  bookTickets,
+  getBookings, // Matches the renamed function in bookingController.js
+  bookTickets, // Matches the renamed function in bookingController.js
   cancelBooking
 } = require('../Controllers/bookingController');
 
+// Routes
 router.get('/', authenticateUser, authorizeRoles('user'), getBookings);
 router.post('/:eventId', authenticateUser, authorizeRoles('user'), bookTickets);
 router.delete('/:bookingId', authenticateUser, authorizeRoles('user'), cancelBooking);

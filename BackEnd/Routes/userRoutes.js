@@ -1,13 +1,14 @@
-<<<<<<< Updated upstream
-=======
+
 const express = require('express');
 const router = express.Router();
 const userController = require('../Controllers/userController');
 const { authenticateUser, authorizeRoles } = require('../middleWare/authMiddleware.js');
 
+
 // Public (handled in auth routes): register, login, forgetPassword
 
 // Admin-only routes
+
 router.get('/', authenticateUser, authorizeRoles('admin'), userController.getAllUsers);
 router.get('/:id', authenticateUser, authorizeRoles('admin'), userController.getUserById);
 router.put('/:id', authenticateUser, authorizeRoles('admin'), userController.updateUserRole);
@@ -25,4 +26,4 @@ router.get('/events', authenticateUser, authorizeRoles('organizer'), userControl
 router.get('/events/analytics', authenticateUser, authorizeRoles('organizer'), userController.getEventAnalytics);
 
 module.exports = router;
->>>>>>> Stashed changes
+

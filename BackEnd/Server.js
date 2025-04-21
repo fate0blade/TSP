@@ -13,9 +13,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log('Failed to connect to MongoDB', err));
 
-const userRoutes = require('./routes/userRoutes');
-const eventRoutes = require('./routes/eventRoutes');
-const bookingRoutes = require('./routes/bookingRoutes');
+const userRoutes = require('./Routes/userRoutes');
+const eventRoutes = require('./Routes/eventRoutes');
+const bookingRoutes = require('./Routes/bookingRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);

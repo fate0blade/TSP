@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Booking = require('../Models/booking');
 const Event = require('../Models/event');
 
+
 // Get all users (Admin only)
 exports.getAllUsers = async (req, res) => {
   try {

@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream:event-ticketing-backend/package.json
     "name": "event-ticketing-backend",
     "version": "1.0.0",
     "description": "",
@@ -13,3 +14,41 @@
     "dependencies": {},
     "devDependencies": {}
   }
+=======
+  "name": "tsp",
+  "version": "1.0.0",
+  "description": "The Event Booking System is a web-based platform that allows users to discover, organize, and book event tickets.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fate0blade/TSP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fate0blade/TSP/issues"
+  },
+  "homepage": "https://github.com/fate0blade/TSP#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.13.2",
+    "moongoose": "^0.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
+>>>>>>> Stashed changes:BackEnd/package.json

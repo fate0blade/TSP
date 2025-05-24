@@ -37,6 +37,7 @@ exports.createEvent = async (req, res) => {
 };
 
 // 3. Edit an event (restricted to organizers)
+
 exports.editEvent = async (req, res) => {
     try {
         const { eventId } = req.params;
@@ -45,6 +46,7 @@ exports.editEvent = async (req, res) => {
         const updatedEvent = await Event.findOneAndUpdate(
             { _id: eventId, organizer: req.user.id },
             { totalTickets, date, location, remainingTickets: totalTickets },
+
             { new: true }
         );
 
@@ -61,7 +63,9 @@ exports.editEvent = async (req, res) => {
 // 4. Delete an event (restricted to organizers)
 exports.deleteEvent = async (req, res) => {
     try {
+
         const { eventId } = req.params;
+
 
         const deletedEvent = await Event.findOneAndDelete({
             _id: eventId,
@@ -98,16 +102,20 @@ exports.getEventAnalytics = async (req, res) => {
 // 6. Approve or reject an event (restricted to admins)
 exports.updateEventStatus = async (req, res) => {
     try {
+
         const { eventId } = req.params;
         const { Status } = req.body;
 
         if (!['approved', 'pending', 'declined'].includes(Status)) {
+
             return res.status(400).json({ message: 'Invalid status value' });
         }
 
         const updatedEvent = await Event.findByIdAndUpdate(
+
             eventId,
             { Status },
+
             { new: true }
         );
 
@@ -120,6 +128,31 @@ exports.updateEventStatus = async (req, res) => {
         res.status(500).json({ message: 'Error updating event status', error });
     }
 };
+
+
+// Get event by ID
+exports.getEventById = async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+        res.status(200).json(event);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching event', error });
+    }
+};
+
+// Get events by organizer
+exports.getEventsByOrganizer = async (req, res) => {
+    try {
+        const events = await Event.find({ organizer: req.user.id });
+        res.status(200).json(events);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching organizer events', error });
+    }
+};
+
 
 
 

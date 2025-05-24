@@ -1,5 +1,4 @@
 
-
 const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // Adjust if needed
 
@@ -46,4 +45,5 @@ const authorizeRoles = (...allowedRoles) => {
 module.exports = {
   authenticateUser,
   authorizeRoles,
+
 };

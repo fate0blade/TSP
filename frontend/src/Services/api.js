@@ -59,24 +59,23 @@ export const userAPI = {
 };
 
 // Event API calls
+const API_URL = 'http://localhost:5000/api';
+
 export const eventAPI = {
-  getAllEvents: () => api.get('/events'),
-  getEventById: (id) => api.get(`/events/${id}`),
-  createEvent: (data) => api.post('/events', data),
-  updateEvent: (id, data) => api.put(`/events/${id}`, data),
-  deleteEvent: (id) => api.delete(`/events/${id}`),
-  getMyEvents: () => api.get('/events/my-events'),
-  approveEvent: (id) => api.put(`/events/${id}/approve`),
-  rejectEvent: (id) => api.put(`/events/${id}/reject`),
-  getEventAnalytics: (id) => api.get(`/events/${id}/analytics`),
+  getAllEvents: () => axios.get(`${API_URL}/events`),
+  getEventById: (id) => axios.get(`${API_URL}/events/${id}`),
+  createEvent: (eventData) => axios.post(`${API_URL}/events`, eventData),
+  updateEvent: (id, eventData) => axios.put(`${API_URL}/events/${id}`, eventData),
+  deleteEvent: (id) => axios.delete(`${API_URL}/events/${id}`)
 };
 
 // Booking API calls
 export const bookingAPI = {
-  createBooking: (data) => api.post('/bookings', data),
-  getMyBookings: () => api.get('/bookings/my-bookings'),
-  cancelBooking: (id) => api.delete(`/bookings/${id}`),
-  getBookingById: (id) => api.get(`/bookings/${id}`),
+  createBooking: (eventId, bookingData) => 
+    axios.post(`${API_URL}/bookings/${eventId}`, bookingData),
+  getUserBookings: () => axios.get(`${API_URL}/bookings`),
+  cancelBooking: (bookingId) => 
+    axios.delete(`${API_URL}/bookings/${bookingId}`)
 };
 
 export default api;

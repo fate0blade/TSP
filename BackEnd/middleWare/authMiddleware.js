@@ -1,80 +1,49 @@
+
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/User'); // Adjust if needed
 
-// Middleware to verify JWT token
+// 🔐 Authentication Middleware
 const authenticateUser = async (req, res, next) => {
-    try {
-        // Check for token in Authorization header
-        const authHeader = req.headers.authorization;
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ message: 'Authentication required' });
-        }
+  const authHeader = req.header('Authorization');
 
-        const token = authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key');
-        
-        const user = await User.findById(decoded.id);
-        if (!user) {
-            return res.status(401).json({ message: 'User not found' });
-        }
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Authorization header missing or invalid' });
+  }
 
-        req.user = user;
-        next();
-    } catch (error) {
-        console.error('Auth error:', error);
-        res.status(401).json({ message: 'Invalid token' });
+  const token = authHeader.split(' ')[1]; // Get the token after 'Bearer'
+
+  try {
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find user by ID 
+    const user = await User.findById(decoded.id).select('-password');
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
     }
+
+    // Attach user object to request
+    req.user = user;
+    next();
+  } catch (err) {
+    console.error('Auth error:', err);
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
 };
 
-// Middleware to check if user has required role
-const authorizeRoles = (...roles) => {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return res.status(403).json({ message: 'Not authorized to access this route' });
-        }
-        next();
-    };
-};
-
-// Middleware to check if user is an admin
-const isAdmin = (req, res, next) => {
-    if (req.user && req.user.role === 'Admin') {
-        next();
-    } else {
-        res.status(403).json({ message: 'Admin access required' });
+// 🛡️ Authorization Middleware
+const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied: insufficient permissions' });
     }
-};
-
-// Middleware to check if user is an organizer
-const isOrganizer = (req, res, next) => {
-    if (req.user && (req.user.role === 'Organizer' || req.user.role === 'Admin')) {
-        next();
-    } else {
-        res.status(403).json({ message: 'Organizer access required' });
-    }
-};
-
-// Middleware to check if user is accessing their own resource or is an admin
-const isOwnerOrAdmin = (paramName = 'userId') => {
-    return (req, res, next) => {
-        const resourceId = req.params[paramName];
-        if (
-            req.user && (
-                req.user._id.toString() === resourceId ||
-                req.user.role === 'Admin'
-            )
-        ) {
-            next();
-        } else {
-            res.status(403).json({ message: 'Unauthorized access' });
-        }
-    };
+    next();
+  };
 };
 
 module.exports = {
-    authenticateUser,
-    authorizeRoles,
-    isAdmin,
-    isOrganizer,
-    isOwnerOrAdmin
+  authenticateUser,
+  authorizeRoles,
+
 };

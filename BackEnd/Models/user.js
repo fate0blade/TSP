@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
+
     required: [true, 'Please provide a name'],
     trim: true
+
   },
   email: {
     type: String,
@@ -23,6 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['Standard User', 'Organizer', 'Admin'],
     default: 'Standard User'
+
   }
 }, {
   timestamps: true

@@ -18,8 +18,22 @@ app.use(cors({
 
 // Body parsing middleware
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+    
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.log('Failed to connect to MongoDB', err));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+const userRoutes = require('./Routes/userRoutes');
+const eventRoutes = require('./Routes/eventRoutes');
+const bookingRoutes = require('./Routes/bookingRoutes');
+
 
 // MongoDB connection with better error handling
 mongoose.connect(process.env.MONGO_URI)
@@ -36,6 +50,7 @@ const userRoutes = require('./Routes/userRoutes');
 const eventRoutes = require('./Routes/eventRoutes');
 const bookingRoutes = require('./Routes/bookingRoutes');
 const authRoutes = require('./Routes/authRoutes');
+
 
 // Use routes
 app.use('/api/auth', authRoutes); // Auth routes should be first

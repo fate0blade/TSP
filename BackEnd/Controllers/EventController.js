@@ -37,14 +37,16 @@ exports.createEvent = async (req, res) => {
 };
 
 // 3. Edit an event (restricted to organizers)
-exports.updateEvent = async (req, res) => {
+
+exports.editEvent = async (req, res) => {
     try {
-        const eventId = req.params.id;
-        const updates = req.body;
+        const { eventId } = req.params;
+        const { totalTickets, date, location } = req.body;
 
         const updatedEvent = await Event.findOneAndUpdate(
             { _id: eventId, organizer: req.user.id },
-            updates,
+            { totalTickets, date, location, remainingTickets: totalTickets },
+
             { new: true }
         );
 
@@ -61,7 +63,9 @@ exports.updateEvent = async (req, res) => {
 // 4. Delete an event (restricted to organizers)
 exports.deleteEvent = async (req, res) => {
     try {
-        const eventId = req.params.id;
+
+        const { eventId } = req.params;
+
 
         const deletedEvent = await Event.findOneAndDelete({
             _id: eventId,
@@ -98,16 +102,20 @@ exports.getEventAnalytics = async (req, res) => {
 // 6. Approve or reject an event (restricted to admins)
 exports.updateEventStatus = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { status } = req.body;
 
-        if (!['approved', 'pending', 'declined'].includes(status)) {
+        const { eventId } = req.params;
+        const { Status } = req.body;
+
+        if (!['approved', 'pending', 'declined'].includes(Status)) {
+
             return res.status(400).json({ message: 'Invalid status value' });
         }
 
         const updatedEvent = await Event.findByIdAndUpdate(
-            id,
-            { status },
+
+            eventId,
+            { Status },
+
             { new: true }
         );
 
@@ -120,6 +128,7 @@ exports.updateEventStatus = async (req, res) => {
         res.status(500).json({ message: 'Error updating event status', error });
     }
 };
+
 
 // Get event by ID
 exports.getEventById = async (req, res) => {
@@ -143,6 +152,7 @@ exports.getEventsByOrganizer = async (req, res) => {
         res.status(500).json({ message: 'Error fetching organizer events', error });
     }
 };
+
 
 
 

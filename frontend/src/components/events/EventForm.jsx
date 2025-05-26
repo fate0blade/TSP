@@ -2,23 +2,22 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const EventForm = () => {
+const EventForm = ({ initialValues = {}, onSubmit, isEditing = false }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const isEditing = Boolean(id);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    time: '',
-    location: '',
-    category: '',
-    ticketPrice: '',
-    totalTickets: '',
-    imageUrl: '',
-    additionalInfo: ''
+    title: initialValues.title || '',
+    description: initialValues.description || '',
+    date: initialValues.date ? initialValues.date.slice(0, 10) : '',
+    time: initialValues.time || '',
+    location: initialValues.location || '',
+    category: initialValues.category || '',
+    ticketPrice: initialValues.ticketPrice || '',
+    totalTickets: initialValues.totalTickets || '',
+    imageUrl: initialValues.imageUrl || '',
+    additionalInfo: initialValues.additionalInfo || ''
   });
 
   useEffect(() => {
@@ -287,4 +286,10 @@ const EventForm = () => {
   );
 };
 
-export default EventForm; 
+export default EventForm;
+
+<EventForm
+  initialValues={event}
+  onSubmit={handleUpdateEvent}
+  isEditing={true}
+/>

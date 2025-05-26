@@ -26,6 +26,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
     "moongoose": "^0.0.5",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "chart.js": "^4.0.0",
+    "react-chartjs-2": "^5.0.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^2.29.3"
   }
 }

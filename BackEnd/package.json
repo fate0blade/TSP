@@ -1,37 +1,25 @@
 {
-  "name": "tsp",
+  "name": "TSP",
   "version": "1.0.0",
-  "description": "The Event Booking System is a web-based platform that allows users to discover, organize, and book event tickets.",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fate0blade/TSP.git"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/fate0blade/TSP/issues"
-  },
-  "homepage": "https://github.com/fate0blade/TSP#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
-    "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^4.21.2",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.16.0",
     "mongoose": "^8.13.2",
-    "moongoose": "^0.0.5"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
+    "multer": "^1.4.5-lts.2",
+    "nodemailer": "^6.10.0"
   }
 }
